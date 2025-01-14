@@ -1,0 +1,34 @@
+DROP DATABASE IF EXISTS ;
+CREATE DATABASE test_project;
+USE test_project;
+
+
+SHOW TABLES;
+
+CREATE TABLE test1(
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    test_name CHAR(100) NOT NULL,
+    test_email CHAR(100) NOT NULL,
+    test_date DATE NOT NULL
+);
+
+INSERT INTO test1
+SET test_name = "test1입니다",
+test_email = "test1@naver.com",
+test_date = NOW();
+
+SELECT * FROM test1;
+
+
+
+CREATE TABLE insertTest(
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    test_name CHAR(100) NOT NULL,
+    test_email CHAR(100) NOT NULL,
+    test_date DATE NOT NULL
+);
+DROP TABLE insertTest;
+DROP TABLE insert_test;
+DELETE FROM insertTest;
+
+SELECT * FROM insertTest;

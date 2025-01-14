@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ysh.test_project.HomeController;
 import com.ysh.test_project.dto.TestDTO;
@@ -33,6 +34,15 @@ public class TestController {
 		
 		
 		return "home";
+	}
+	
+	@RequestMapping(value = "/inserTest", method = RequestMethod.GET)
+	@ResponseBody
+	public void inserTest() {
+		logger.info("insertTest=====================================>>");
+		
+		testService.insertTest();
+		
 	}
 
 }

@@ -2,16 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ysh.test_project.repository.TestRepository">
+<mapper
+	namespace="com.ysh.test_project.repository.TestRepository">
 
-	<select id="getTestData" resultType="com.ysh.test_project.dto.TestDTO">
-		select * from test1
+	<select id="getTestData"
+		resultType="com.ysh.test_project.dto.TestDTO">
+		select * from test1;
 	</select>
 
-	
-	
+	<insert id="insertTest" parameterType="map">
+		<if test="_databaseId == 'mysql' or _databaseId == 'mariadb'">
+			insert into ${LogTableName}
+			(test_name, test_email, test_date)
+			values
+			<foreach collection="batchList" item="item" separator=",">
+				(
+				#{item.test_name}, #{item.test_email}, #{item.test_date}
+				)
+			</foreach>
+		</if>
+	</insert>
 
-	
-	
+
+
+
+
+
 
 </mapper>
