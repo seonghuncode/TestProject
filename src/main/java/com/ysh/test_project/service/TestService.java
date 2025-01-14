@@ -60,6 +60,7 @@ public class TestService {
 		Date date = new Date(202501);
 
 		for (int i = 1; i <= 10; i++) {
+			insertDTO.setId(i);
 			insertDTO = new InsertTestDTO();
 			insertDTO.setTest_name("test_name" + i);
 			insertDTO.setTest_email("test_email" + i);

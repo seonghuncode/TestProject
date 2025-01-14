@@ -21,6 +21,32 @@
 				)
 			</foreach>
 		</if>
+		<if test="_databaseId == 'oracle'">
+			insert into ${LogTableName}
+			(id, test_name, test_email, test_date)
+			<foreach collection="batchList" item="item" index="index"
+				open="select " separator=" union all select " close="">
+				#{item.id} as id,
+				#{item.test_name} as test_name,
+				#{item.test_email} as test_email,
+				#{item.test_date} as test_date
+				from dual
+			</foreach>
+		</if>
+		<!-- 
+		<if test="_databaseId == 'oracle'">
+    insert into ${LogTableName} 
+    (test_name, test_email, test_date)
+    <foreach collection="batchList" item="item" index="index" open="select " separator=" union all select " close="">
+        #{item.test_name} as test_name, 
+        #{item.test_email} as test_email, 
+        #{item.test_date} as test_date 
+        from dual
+    </foreach>
+</if>
+		
+		 -->
+
 	</insert>
 
 
