@@ -25,9 +25,11 @@ public class TestRepository {
 	}
 	
 	public void insertTest(Map<String, Object> batchMap) {
-
 		session.selectList("com.ysh.test_project.repository.TestRepository.insertTest", batchMap);
-		
+	}
+	
+	public void improveQuerytest(Map<String, Object> loglist) {
+		session.insert("com.ysh.test_project.repository.TestRepository.improveQueryTest", loglist);
 	}
 	
 }

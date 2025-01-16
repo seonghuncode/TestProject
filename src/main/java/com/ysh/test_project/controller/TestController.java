@@ -42,7 +42,13 @@ public class TestController {
 		logger.info("insertTest=====================================>>");
 		
 		testService.insertTest();
-		
+	}
+	
+	@RequestMapping(value = "/improveQuryTest", method = RequestMethod.GET)
+	@ResponseBody
+	public void improveQueryTest() {
+		logger.info("imporveQueryTest===================>");
+		testService.improveQueryTest();
 	}
 
 }

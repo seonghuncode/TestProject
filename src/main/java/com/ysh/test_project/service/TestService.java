@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import com.ysh.test_project.Repository.TestRepository;
 import com.ysh.test_project.dto.InsertTestDTO;
+import com.ysh.test_project.dto.Log;
 import com.ysh.test_project.dto.TestDTO;
 
 @Service
@@ -91,6 +94,34 @@ public class TestService {
 
 		testRepository.insertTest(batchMap);
 
+	}
+	
+	
+	public void improveQueryTest() {
+		String logTableName = "insertQueryTest";
+		List<Log> batchList = new ArrayList();
+		Log log = new Log();
+		 LocalDateTime now = LocalDateTime.now();
+		 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSS");
+
+		for (int i = 1; i <= 300; i++) {
+			log = new Log();
+			String formattedDateTime = now.format(formatter);
+			log.setServerName("TestServerName_" + i);
+			log.setCommand("TestCommand_" + i);
+			log.setLogTime(formattedDateTime + 1);
+			batchList.add(log);
+		}
+
+		Map<String, Object> batchMap = new HashMap<>();
+		batchMap.put("batchList", batchList);
+		batchMap.put("LogTableName", logTableName);
+		
+		System.out.println("LogTableName : " + logTableName);
+		System.out.println("batchList : " + batchList);
+
+
+		testRepository.improveQuerytest(batchMap);
 	}
 
 }

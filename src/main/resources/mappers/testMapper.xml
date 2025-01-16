@@ -50,6 +50,71 @@
 	</insert>
 
 
+	<insert id="improveQueryTest" parameterType="map">
+		<if test="_databaseId == 'oracle'">
+			<!-- 해당 방식으로 UNION ALL을 할경우 순서가 보장되지 않는 이슈가 있음 -->
+			<!-- 
+			insert into ${LogTableName} (
+			ServerName, Command, LogTime
+			)
+			<foreach collection="batchList" item="item" separator="UNION ALL">
+			(
+			select
+			#{item.ServerName}, #{item.Command}, #{item.LogTime}
+			from dual	
+			)
+			</foreach>
+			-->
+		
+		<!-- 순서를 보장X-->
+		<!-- 
+		INSERT INTO ${LogTableName} (ServerName, Command, LogTime)
+		SELECT ServerName, Command, LogTime FROM (
+		    <foreach collection="batchList" item="item" separator=" UNION ALL ">
+		        SELECT
+		            #{item.ServerName, jdbcType=VARCHAR} AS ServerName,
+		            #{item.Command, jdbcType=VARCHAR} AS Command,
+		            #{item., jdbcType=VARCHAR} AS LogTime
+		        FROM DUAL
+		    </foreach>
+		)
+		 -->
+		
+		<!-- 순서보장X -->
+		<!-- 
+		INSERT ALL
+        <foreach collection="batchList" item="item" separator=" ">
+            INTO ${LogTableName} (ServerName, Command, LogTime)
+            VALUES (#{item.ServerName}, #{item.Command}, #{item.LogTime})
+        </foreach>
+    	SELECT 1 FROM DUAL
+    	 -->
+    	 
+    	 <!-- 순차보장X -->
+    	 <!-- 
+		INSERT INTO ${LogTableName} (ServerName, Command, LogTime)
+        <foreach collection="batchList" item="item" separator="UNION ALL">
+            (
+                SELECT #{item.serverName}, #{item.command}, #{item.logTime} FROM DUAL
+            )
+        </foreach>
+ 		 -->
+ 		 
+ 		            
+ 		insert into  ${LogTableName} (ServerName, Command, LogTime)
+        values
+        <foreach collection="batchList" item="item" separator=" , ">
+            ( #{item.serverName}, #{item.command}, #{item.logTime})
+        </foreach>
+        ;
+
+
+
+	</if>
+	</insert>
+	
+	
+
 
 
 
