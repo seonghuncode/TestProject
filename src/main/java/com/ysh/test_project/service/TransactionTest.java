@@ -1,17 +1,30 @@
 package com.ysh.test_project.service;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.ysh.test_project.dto.InsertMonth;
 import com.ysh.test_project.dto.InsertRecent;
 
 @Service
 public class TransactionTest extends BaseDBProc{
+	
+	@Autowired
+	DataSource dataSource;
+
 	
 	
 	//분기 처리
@@ -28,7 +41,8 @@ public class TransactionTest extends BaseDBProc{
 		return false;
 	}
 	
-	//특정 분기에 대한 처리
+	//특정 분기에 대한 처리 -> 해당 메서드가 트랜잭션 적용 필요
+	//@Transactional(rollbackFor = Exception.class)
 	private boolean test2() {
 		
 		String logTableName = "InsertMonth";
@@ -41,7 +55,7 @@ public class TransactionTest extends BaseDBProc{
 		InsertRecent insertDTO2 = new InsertRecent();
 
 		for (int i = 2024; i <= 2025; i++) {
-			for(int j=1; j<12; j++) {				
+			for(int j=1; j<=12; j++) {				
 				insertDTO = new InsertMonth();
 				insertDTO.setId(i);
 				insertDTO.setYear("월별 : " + Integer.toString(i));
@@ -78,33 +92,76 @@ public class TransactionTest extends BaseDBProc{
 			insertRecent(batchMap2);			
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("Exception : " + e);
+			System.out.println("Exception(트랜잭션 동작!) : " + e);
 			return false;
 		}
 		return false;
 	}
 	
+	
+	//월별 테이블
 	private boolean insertMonth(Map<String, Object> batchList) {
 		try {			
 			getSqlSession().insert("com.ysh.test_project.service.TransactionTest.insertMonth", batchList);
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("Exception : " + e);
+			System.out.println("Exception(월별 테이블) : " + e);
 			return false;
 		}
 		return false;
 	}
 	
-	private boolean insertRecent(Map<String, Object> batchMap2) {
-		
+	//최근 테이블
+	/*
+	@Transactional(rollbackFor = Exception.class)
+	private boolean insertRecent(Map<String, Object> batchMap2){
 		try {
 			getSqlSession().insert("com.ysh.test_project.service.TransactionTest.insertRecent", batchMap2);
+			throw new Exception("최근 테이블 예외 발생");
 		}catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("Exception : " + e);
+			System.out.println("Exception(최근 테이블) : " + e);
 			return false;
 		}
-		return false;
+		//return false;
 	}
+	*/
+	
+	
+	@Transactional
+	public boolean insertRecent(Map<String, Object> batchMap2) throws SQLException {
+		// 트랜잭션 정의
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		// 트랜잭션 상태
+		DataSourceTransactionManager txManager = new DataSourceTransactionManager(dataSource);
+		TransactionStatus sts = txManager.getTransaction(def);
+
+
+	    try {
+
+	        getSqlSession().insert("com.ysh.test_project.service.TransactionTest.insertRecent", batchMap2);
+	        
+	        // 예외를 일부러 발생시킴
+			
+			  if(true) { throw new Exception("테스트 예외 발생"); }
+			 
+	       
+	        // 명시적으로 commit
+	        txManager.commit(sts);
+	        return true;
+	    } catch (Exception e) {
+	        System.out.println("Exception(최근 테이블) : " + e);
+	        // 예외 발생 시 rollback
+	        txManager.rollback(sts);
+
+	        // 예외를 다시 던져 롤백 발생
+	        //throw new RuntimeException(e);
+	        return false;
+	    }
+	}
+
+	
+	
 
 }
