@@ -36,7 +36,7 @@ public class TestController {
 		return "home";
 	}
 	
-	@RequestMapping(value = "/inserTest", method = RequestMethod.GET)
+	@RequestMapping(value = "/insertTest", method = RequestMethod.GET)
 	@ResponseBody
 	public void inserTest() {
 		logger.info("insertTest=====================================>>");
@@ -49,6 +49,14 @@ public class TestController {
 	public void improveQueryTest() {
 		logger.info("imporveQueryTest===================>");
 		testService.improveQueryTest();
+	}
+	
+	
+	@RequestMapping(value = "/transactionTest", method = RequestMethod.GET)
+	@ResponseBody
+	public void transactionTest() {
+		logger.info("transactionTest====================>");
+		testService.transactionTest();
 	}
 
 }

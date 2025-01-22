@@ -100,16 +100,6 @@
         </foreach>
  		 -->
  		 
- 		            
- 		insert into  ${LogTableName} (ServerName, Command, LogTime)
-        values
-        <foreach collection="batchList" item="item" separator=" , ">
-            ( #{item.serverName}, #{item.command}, #{item.logTime})
-        </foreach>
-        ;
-
-
-
 	</if>
 	</insert>
 	

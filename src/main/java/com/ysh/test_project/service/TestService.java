@@ -28,12 +28,12 @@ public class TestService {
 
 	@Autowired
 	private TestRepository testRepository;
-
 	@Autowired
 	private SqlSessionFactory sqlSessionFactory;
-
 	@Autowired
 	private DataSource dataSource;
+	@Autowired
+	private TransactionTest transactionTest;
 
 	public List<TestDTO> getTestData() {
 
@@ -123,5 +123,21 @@ public class TestService {
 
 		testRepository.improveQuerytest(batchMap);
 	}
+	
+	
+	//외부에서 들어온 호출
+	/*
+	 * controller -> TestService -> TransactionTest
+	 */
+	public void transactionTest() {
+		boolean result = transactionTest.test1("insertTLog");
+		System.out.println("transactionTest : " + result);
+	}
+	
+	
+	
+	
+	
+	
 
 }
