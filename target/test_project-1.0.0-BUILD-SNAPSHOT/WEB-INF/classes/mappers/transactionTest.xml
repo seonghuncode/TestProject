@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ysh.test_project.service.TransactionTest">
+
+	<insert id="insertMonth" parameterType="map">
+		<if test="_databaseId == 'mysql' or _databaseId == 'mariadb'">
+			insert into ${LogTableName} (`year`, `month`, `day`)
+			values
+			<foreach collection="monthList" item="item" separator=",">
+				(
+				#{item.year}, #{item.month}, #{item.day}
+				)
+			</foreach>
+		</if>
+		<if test="_databaseId == 'oracle'"> </if>
+	</insert>
+	
+	<insert id="insertRecent" parameterType="map">
+		<if test="_databaseId == 'mysql' or _databaseId == 'mariadb'">
+			insert into ${LogTableName2} (`year`, `month`, `day`)
+			values
+			<foreach collection="recentList" item="item" separator=",">
+				(
+				#{item.year}, #{item.month}, #{item.day}
+				)
+			</foreach>
+		</if>
+		<if test="_databaseId == 'oracle'"> </if>
+	</insert>
+
+	
+</mapper>

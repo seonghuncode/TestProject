@@ -48,8 +48,7 @@
 		<property name="databaseIdProvider" ref="databaseIdProvider" />
 	</bean>
 
-	<context:component-scan
-		base-package="com.ysh.test_project" />
+	<context:component-scan base-package="com.ysh.test_project" />
 
 	<!-- mysql세션 객체 -->
 	<bean id="sqlSession"

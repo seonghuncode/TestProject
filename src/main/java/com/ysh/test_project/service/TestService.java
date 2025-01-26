@@ -18,10 +18,10 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ysh.test_project.Repository.TestRepository;
 import com.ysh.test_project.dto.InsertTestDTO;
 import com.ysh.test_project.dto.Log;
 import com.ysh.test_project.dto.TestDTO;
+import com.ysh.test_project.repository.TestRepository;
 
 @Service
 public class TestService {

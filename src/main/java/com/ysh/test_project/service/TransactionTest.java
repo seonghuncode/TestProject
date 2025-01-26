@@ -1,6 +1,5 @@
 package com.ysh.test_project.service;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,12 +8,9 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.ysh.test_project.dto.InsertMonth;
 import com.ysh.test_project.dto.InsertRecent;
@@ -43,7 +39,7 @@ public class TransactionTest extends BaseDBProc{
 	
 	//특정 분기에 대한 처리 -> 해당 메서드가 트랜잭션 적용 필요
 	//@Transactional(rollbackFor = Exception.class)
-	private boolean test2() {
+	public boolean test2() {
 		
 		String logTableName = "InsertMonth";
 		List<InsertMonth> monthList = new ArrayList();
@@ -113,7 +109,7 @@ public class TransactionTest extends BaseDBProc{
 	
 	//최근 테이블
 	/*
-	@Transactional(rollbackFor = Exception.class)
+	@Transactional(rollbackFor = {Exception.class})
 	private boolean insertRecent(Map<String, Object> batchMap2){
 		try {
 			getSqlSession().insert("com.ysh.test_project.service.TransactionTest.insertRecent", batchMap2);
@@ -126,8 +122,10 @@ public class TransactionTest extends BaseDBProc{
 		//return false;
 	}
 	*/
+
 	
-	
+	//명시적 트랜잭션 사용 방법
+	/*
 	@Transactional
 	public boolean insertRecent(Map<String, Object> batchMap2) throws SQLException {
 		// 트랜잭션 정의
@@ -157,6 +155,24 @@ public class TransactionTest extends BaseDBProc{
 
 	        // 예외를 다시 던져 롤백 발생
 	        //throw new RuntimeException(e);
+	        return false;
+	    }
+	}
+	*/
+
+	@Transactional(rollbackFor = Exception.class)
+	public boolean insertRecent(Map<String, Object> batchMap2) {
+	    try {
+	 
+
+	        getSqlSession().insert("com.ysh.test_project.service.TransactionTest.insertRecent", batchMap2);
+
+	        //throw new Exception("최근 테이블 예외 발생");
+	        return true;
+	    } catch (Exception e) {
+	        System.out.println("Exception(최근 테이블) : " + e);
+
+	    
 	        return false;
 	    }
 	}

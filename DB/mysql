@@ -32,3 +32,28 @@ DROP TABLE insert_test;
 DELETE FROM insertTest;
 
 SELECT * FROM insertTest;
+
+
+
+
+
+
+CREATE TABLE InsertMonth(
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `year` CHAR(100) NOT NULL,
+    `month` CHAR(100) NOT NULL,
+    `day` DATE NOT NULL
+);
+
+CREATE TABLE InsertRecent;(
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `year` CHAR(100) NOT NULL,
+    `month` CHAR(100) NOT NULL,
+    `day` DATE NOT NULL
+);
+
+SELECT * FROM InsertMonth;
+SELECT * FROM InsertRecent;
+
+DELETE FROM InsertMonth;
+DELETE FROM InsertRecent;

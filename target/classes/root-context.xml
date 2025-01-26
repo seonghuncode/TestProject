@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- MariaDB JDBC DataSource -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"
+			value="org.mariadb.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mariadb://127.0.0.1:3306/test_project" />
+		<property name="username" value="ysh" />
+		<property name="password" value="ysh123" />
+	</bean>
+
+	<!-- oracle + 쿼리 콘솔 출력 -->
+	<!-- <bean id="dataSourceSpied" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property> 
+		<property name="url" value="jdbc:oracle:thin:@192.168.111.100:1521:xe"></property> 
+		<property name="username" value="system"></property> <property name="password" 
+		value="ysh123"></property> </bean> <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource"> 
+		<constructor-arg ref="dataSourceSpied" /> <property name="logFormatter"> 
+		<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter"> <property name="loggingType" 
+		value="MULTI_LINE" /> <property name="sqlPrefix" value="SQL : " /> </bean> 
+		</property> </bean> -->
+
+
+	<!-- mybatis SqlSessionFactoryBean -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation"
+			value="classpath:/mybatis-config.xml" />
+		<!-- <property name="mapperLocations" value="classpath:/mappers/**/*Mapper.xml" 
+			/> -->
+		<property name="mapperLocations"
+			value="classpath*:/mappers/**/*.xml"></property>
+		<property name="databaseIdProvider" ref="databaseIdProvider" />
+	</bean>
+
+	<context:component-scan base-package="com.ysh.test_project" />
+
+	<!-- mysql세션 객체 -->
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>
+
+	<bean id="databaseIdProvider"
+		class="org.apache.ibatis.mapping.VendorDatabaseIdProvider">
+		<property name="properties">
+			<props>
+				<prop key="SQL Server">mssql</prop>
+				<prop key="DB2">db2</prop>
+				<prop key="Oracle">oracle</prop>
+				<prop key="MySQL">mysql</prop>
+				<prop key="MaridDB">maridb</prop>
+			</props>
+		</property>
+	</bean>
+
+
+
+</beans>

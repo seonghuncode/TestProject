@@ -1,4 +1,4 @@
-package com.ysh.test_project.Repository;
+package com.ysh.test_project.repository;
 
 import java.sql.Date;
 import java.time.LocalDate;
