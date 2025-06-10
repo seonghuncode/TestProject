@@ -58,5 +58,11 @@ public class TestController {
 		logger.info("transactionTest====================>");
 		testService.transactionTest();
 	}
+	
+	
+	@RequestMapping(value = "/modalTest", method = RequestMethod.GET)
+	public String modalTest() {
+		return "modalTest";
+	}
 
 }
