@@ -97,8 +97,10 @@ function test2(){
 <button type='button' data-toggle="modal" data-target="#first_modal">첫번쨰 모달 열기</button>
 <button type='button' data-toggle="modal" data-target="#second_modal">두번쨰 모달 열기</button>
 <button type='button' data-toggle="modal" data-target="#third_modal">세번쨰 모달 열기</button>
-<button type='button' data-toggle="modal" data-target="#dlgLineChart">네번쨰 모달 열기</button>
-<button type='button' data-toggle="modal" data-target="#dlgPieChart">다삿번쨰 모달 열기</button>
+<!-- <button type='button' data-toggle="modal" data-target="#dlgLineChart">네번쨰 모달 열기</button>
+<button type='button' data-toggle="modal" data-target="#dlgPieChart">다삿번쨰 모달 열기</button> -->
+<button onclick="$('#dlgLineChart').modal('show')">라인 차트 열기</button>
+<button onclick="$('#dlgPieChart').modal('show')">파이 차트 열기</button>
  
 <!--first_modal-->
 <!-- <div class="modal fade bs-example-modal-lg" id="first_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static"> -->
