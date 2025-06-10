@@ -78,6 +78,17 @@ $(document).on('click', '.modal', function(){
         $('body').data( 'fv_open_modals', 0 );
     }
 });
+
+function test(){
+	$("#dlgLineChart").modal('hide');
+
+}
+
+function test2(){
+	$("#dlgPieChart").modal('hide');
+
+}
+
 </script>
 
 <body>
@@ -86,6 +97,8 @@ $(document).on('click', '.modal', function(){
 <button type='button' data-toggle="modal" data-target="#first_modal">첫번쨰 모달 열기</button>
 <button type='button' data-toggle="modal" data-target="#second_modal">두번쨰 모달 열기</button>
 <button type='button' data-toggle="modal" data-target="#third_modal">세번쨰 모달 열기</button>
+<button type='button' data-toggle="modal" data-target="#dlgLineChart">네번쨰 모달 열기</button>
+<button type='button' data-toggle="modal" data-target="#dlgPieChart">다삿번쨰 모달 열기</button>
  
 <!--first_modal-->
 <!-- <div class="modal fade bs-example-modal-lg" id="first_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static"> -->
@@ -134,6 +147,27 @@ $(document).on('click', '.modal', function(){
      </div>
    </div>
 </div>
+</div>
+
+
+<div id="dlgLineChart" class="modal fade" tabindex="-1" data-backdrop="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">Line Chart</div>
+      <div class="modal-body">내용</div>
+    <button id="modalHide" onclick="test();" >modal hide</button>
+    </div>
+  </div>
+</div>
+
+<div id="dlgPieChart" class="modal fade" tabindex="-1" data-backdrop="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">Pie Chart</div>
+      <div class="modal-body">내용</div>
+      <button id="modalHide" onclick="test2();" >modal hide</button>
+    </div>
+  </div>
 </div>
 
 </body>
